@@ -28,6 +28,6 @@ class License : public eosio::contract {
             EOSLIB_SERIALIZE(project, (owner)(project_name)(company_name)(contact_info)(status)(license_i)(license_u))
         };
 
-        typedef multi_index<N(projects),project> project_table;
+        typedef eosio::multi_index<N(projects),project> project_table;
         project_table projects;
 }
