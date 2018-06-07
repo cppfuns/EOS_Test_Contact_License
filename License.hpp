@@ -9,11 +9,11 @@ class License : public eosio::contract {
         ,projects(_self, _self)
         ,accounts(_self, _self){}
 
-        void changeUserInfo(account_name owner, const std::string& company_name, const std::string& contact_info);
-        void createProject(account_name owner, const std::string& project_name);
-        void changeProject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info);
-        void buyLicense(account_name owner, const std::string& project_name, uint8_t license_type);
-        void getLicense(account_name owner, const std::string& project_name, uint8_t license_type);
+        void setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info);
+        void makeproject(account_name owner, const std::string& project_name);
+        void setproject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info);
+        void buylicense(account_name owner, const std::string& project_name, uint8_t license_type);
+        void getlicense(account_name owner, const std::string& project_name, uint8_t license_type);
 
     private:
 

@@ -1,6 +1,6 @@
 #include <License.hpp>
 
-void License::changeUserInfo(account_name owner, const std::string& company_name, const std::string& contact_info){
+void License::setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info){
     require_auth(owner);
     auto account_itr = accounts.find(owner);
     if(account_itr == accounts.end()){
@@ -18,7 +18,7 @@ void License::changeUserInfo(account_name owner, const std::string& company_name
     }
 }
 
-void License::createProject(account_name owner, const std::string& project_name){
+void License::makeproject(account_name owner, const std::string& project_name){
     require_auth(owner);
     for( const auto& project : projects ) {
         if(project.project_name == project_name && project.owner == owner){
@@ -37,7 +37,7 @@ void License::createProject(account_name owner, const std::string& project_name)
     });
 }
 
-void License::changeProject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info){
+void License::setproject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info){
     require_auth(owner);
     /*auto project_itr = projects.find(project_name);
     if(project_itr == projects.end()){
@@ -48,10 +48,10 @@ void License::changeProject(account_name owner, const std::string& project_name,
     }*/
 }
 
-void License::buyLicense(account_name owner, const std::string& project_name, uint8_t license_type){
+void License::buylicense(account_name owner, const std::string& project_name, uint8_t license_type){
     require_auth(owner);
 }
 
-void License::getLicense(account_name owner, const std::string& project_name, uint8_t license_type){
+void License::getlicense(account_name owner, const std::string& project_name, uint8_t license_type){
     require_auth(owner);
 }
