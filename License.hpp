@@ -14,9 +14,6 @@ class License : public eosio::contract {
         void getLicense(account_name owner, const std::string& project_name, uint8_t license_type);
 
     private:
-        struct License_data{
-
-        }
         //@abi table projects i64
         struct project{
             account_name owner;
