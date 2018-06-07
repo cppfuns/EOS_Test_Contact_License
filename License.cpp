@@ -14,7 +14,7 @@ void License::changeUserInfo(account_name owner, const std::string& company_name
         accounts.modify(account_itr, 0, [&](auto& account) {
             account.company_name = company_name;
             account.contact_info = contact_info;
-        }
+        });
     }
 }
 
@@ -34,7 +34,7 @@ void License::createProject(account_name owner, const std::string& project_name)
             project.company_name = account_itr->company_name;
             project.contact_info = account_itr->contact_info;
         }
-    }
+    });
 }
 
 void License::changeProject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info){
@@ -44,7 +44,7 @@ void License::changeProject(account_name owner, const std::string& project_name,
         projects.modify(project_itr, 0, [&](auto& project) {
             project.company_name = company_name;
             project.contact_info = contact_info;
-        }
+        });
     }
 }
 
