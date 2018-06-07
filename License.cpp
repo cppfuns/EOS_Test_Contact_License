@@ -39,13 +39,13 @@ void License::createProject(account_name owner, const std::string& project_name)
 
 void License::changeProject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info){
     require_auth(owner);
-    auto project_itr = projects.find(project_name);
+    /*auto project_itr = projects.find(project_name);
     if(project_itr == projects.end()){
         projects.modify(project_itr, 0, [&](auto& project) {
             project.company_name = company_name;
             project.contact_info = contact_info;
         });
-    }
+    }*/
 }
 
 void License::buyLicense(account_name owner, const std::string& project_name, uint8_t license_type){
