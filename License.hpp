@@ -46,3 +46,4 @@ class License : public eosio::contract {
         typedef eosio::multi_index<N(projects),project> project_table;
         project_table projects;
 };
+EOSIO_ABI(License, (changeUserInfo)(createProject)(changeProject)(buyLicense)(getLicense))
