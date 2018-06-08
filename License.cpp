@@ -1,6 +1,7 @@
 #include <License.hpp>
 
 void License::setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info){
+    eosio::print("License::setuserinfo line 4");
     require_auth(owner);
     auto account_itr = accounts.find(owner);
     if(account_itr == accounts.end()){

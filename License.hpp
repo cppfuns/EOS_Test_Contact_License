@@ -6,8 +6,8 @@ class License : public eosio::contract {
     public:
         License( account_name self )
         :eosio::contract(self)
-        ,projects(_self, _self)
-        ,accounts(_self, _self){}
+        ,accounts(_self, _self)
+        ,projects(_self, _self){}
 
         void setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info);
         void makeproject(account_name owner, const std::string& project_name);
