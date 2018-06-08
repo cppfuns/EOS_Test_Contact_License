@@ -18,12 +18,12 @@ class License : public eosio::contract {
     private:
 
         struct account{
-            account_name name;
+            account_name owner;
             std::string company_name;
             std::string contact_info;
             uint8_t level;
-            uint64_t primary_key()const { return name; }
-            EOSLIB_SERIALIZE(account, (name)(company_name)(contact_info)(level))
+            uint64_t primary_key()const { return owner; }
+            EOSLIB_SERIALIZE(account, (owner)(company_name)(contact_info)(level))
         };
 
         typedef eosio::multi_index<N(accounts),account> account_table;
