@@ -28,7 +28,7 @@ void License::makeproject(account_name owner, const std::string& project_name){
         }
     }
     auto project_itr = projects.emplace(_self, [&](auto& project){
-        project.owner = owner;
+        project.user_id = owner;
         project.project_name = project_name;
         auto account_itr = accounts.find(owner);
         if(account_itr == accounts.end()){
