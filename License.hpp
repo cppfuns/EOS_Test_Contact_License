@@ -7,7 +7,7 @@ class License : public eosio::contract {
         License( account_name self )
         :eosio::contract(self)
         ,accounts(_self, _self)
-        ,projects(_self, _self){}
+        ,projecttable(_self, _self){}
 
         void setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info);
         void makeproject(account_name owner, const std::string& project_name);
@@ -28,7 +28,7 @@ class License : public eosio::contract {
         typedef eosio::multi_index<N(accounts),account> account_table;
         account_table accounts;
 
-        //@abi table projects i64
+        //@abi table projecttable i64
         struct project{
             uint32_t pkey;
             account_name owner_name;
@@ -47,7 +47,7 @@ class License : public eosio::contract {
         //一个multi_index最多支持16个二级索引
         //定义二级索引使用eosio::indexed_by模板。N(byowner_name)为索引的名称
         //project表数据类型，uint64_t索引类型即索引函数返回的类型(只支持uint64_t,uint128_t,double,long double,key256类型)，&project::getowner_name索引函数。
-        typedef eosio::multi_index<N(project_table),project, eosio::indexed_by<N(byowner_name), eosio::const_mem_fun<project, account_name, &project::getowner_name> >> project_table_type;
-        project_table_type project_table;
+        typedef eosio::multi_index<N(projecttable),project, eosio::indexed_by<N(byowner_name), eosio::const_mem_fun<project, account_name, &project::getowner_name> >> projecttable_type;
+        projecttable_type projecttable;
 };
 EOSIO_ABI(License, (setuserinfo)(makeproject)(buylicense)(testlicense))

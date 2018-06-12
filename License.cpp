@@ -21,13 +21,13 @@ void License::setuserinfo(account_name owner, const std::string& company_name, c
 
 void License::makeproject(account_name owner, const std::string& project_name){
     require_auth(owner);
-    for( const auto& project : project_table ) {
+    for( const auto& project : projecttable ) {
         if(project.project_name == project_name && project.owner_name == owner){
             eosio_assert(false, "owner with project already exists" );
             return;
         }
     }
-    auto project_itr = project_table.emplace(_self, [&](auto& project){
+    auto project_itr = projecttable.emplace(_self, [&](auto& project){
         project.owner_name = owner;
         project.project_name = project_name;
         auto account_itr = accounts.find(owner);
@@ -43,14 +43,14 @@ void License::buylicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
 
-    auto customer_index = project_table.template get_index<N(getowner_name)>();
+    auto customer_index = projecttable.template get_index<N(getowner_name)>();
     account_name customer_acct = eosio::chain::string_to_name(owner);
     auto cust_itr = customer_index.find(customer_acct);
-    while (cust_itr != service_table.end() && cust_itr->owner_name == customer_acct) {
+    while (cust_itr != projecttable.end() && cust_itr->owner_name == customer_acct) {
         if(cust_itr->project_name == project_name){
             if(cust_itr->status == 0){
                 //TODO 判断当前账户余额，购买转账等操作
-                project_table.modify(cust_itr, 0, [&](auto& project) {
+                projecttable.modify(cust_itr, 0, [&](auto& project) {
                     project.status = 1;
                 });
             }
@@ -68,7 +68,7 @@ void License::buylicense(account_name owner, const std::string& project_name){
 void License::testlicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
-    for( const auto& project : project_table ) {
+    for( const auto& project : projecttable ) {
         if(project.project_name == project_name && project.owner_name == owner){
             eosio_assert((project.status == 1), "The current project is not authorized" );
             bFind = true;
