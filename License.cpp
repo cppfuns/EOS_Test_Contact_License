@@ -34,25 +34,39 @@ void License::makeproject(account_name owner, const std::string& project_name){
         if(account_itr == accounts.end()){
             project.company_name = account_itr->company_name;
             project.contact_info = account_itr->contact_info;
+            project.status = 0; //初始化未授权，须另购买
         }
     });
 }
 
-void License::setproject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info){
+void License::buylicense(account_name owner, const std::string& project_name){
     require_auth(owner);
-    /*auto project_itr = projects.find(project_name);
-    if(project_itr == projects.end()){
-        projects.modify(project_itr, 0, [&](auto& project) {
-            project.company_name = company_name;
-            project.contact_info = contact_info;
-        });
-    }*/
+    bool bFind = false;
+    for( const auto& project : projects ) {
+        if(project.project_name == project_name && project.owner == owner){
+            if(project.status == 0){
+                //TODO 判断当前账户余额，购买转账等操作
+                project.status = 1;
+            }
+            else{
+                eosio_assert(false, "The current project is authorized" );
+            }
+            bFind = true;
+            break;
+        }
+    }
+    eosio_assert(bFind, "owner with project not exists" );
 }
 
-void License::buylicense(account_name owner, const std::string& project_name, uint8_t license_type){
+void License::testlicense(account_name owner, const std::string& project_name){
     require_auth(owner);
-}
-
-void License::getlicense(account_name owner, const std::string& project_name, uint8_t license_type){
-    require_auth(owner);
+    bool bFind = false;
+    for( const auto& project : projects ) {
+        if(project.project_name == project_name && project.owner == owner){
+            eosio_assert((project.status == 1), "The current project is not authorized" );
+            bFind = true;
+            break;
+        }
+    }
+    eosio_assert(bFind, "owner with project not exists" );
 }

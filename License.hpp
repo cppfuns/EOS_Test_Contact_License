@@ -11,9 +11,8 @@ class License : public eosio::contract {
 
         void setuserinfo(account_name owner, const std::string& company_name, const std::string& contact_info);
         void makeproject(account_name owner, const std::string& project_name);
-        void setproject(account_name owner, const std::string& project_name, const std::string& company_name, const std::string& contact_info);
-        void buylicense(account_name owner, const std::string& project_name, uint8_t license_type);
-        void getlicense(account_name owner, const std::string& project_name, uint8_t license_type);
+        void buylicense(account_name owner, const std::string& project_name);
+        void testlicense(account_name owner, const std::string& project_name);
 
     private:
         //@abi table accounts i64
@@ -31,19 +30,24 @@ class License : public eosio::contract {
 
         //@abi table projects i64
         struct project{
-            account_name owner;
+            uint32_t project_rank;
+            account_name user_id;
             std::string project_name;
             std::string company_name;
             std::string contact_info;
             uint8_t      status;
-            std::string license_i;
-            std::string license_u;
 
-            uint64_t primary_key()const { return owner; }
-            EOSLIB_SERIALIZE(project, (owner)(project_name)(company_name)(contact_info)(status)(license_i)(license_u))
+            uint64_t primary_key()const { return project_rank; }
+            uint64_t user_id() const{return user_id;}
+            EOSLIB_SERIALIZE(project, (project_rank)(user_id)(project_name)(company_name)(contact_info)(status))
         };
-
-        typedef eosio::multi_index<N(projects),project> project_table;
+        //contracts/eosiolib/multi_index.hpp
+        //multi_index用于封装智能合约对数据库的管理，增、删、改、查
+        //eosio::multi_index<N(表名),数据类型> 
+        //一个multi_index最多支持16个二级索引
+        //定义二级索引使用eosio::indexed_by模板。N(projectUserId)为索引的名称
+        //project表数据类型，uint64_t索引类型即索引函数返回的类型(只支持uint64_t,uint128_t,double,long double,key256类型)，&project::user_id索引函数。
+        typedef eosio::multi_index<N(projects),project, eosio::indexed_by<N(projectUserId), eosio::const_mem_fun<project, uint64_t, &project::user_id> >> project_table;
         project_table projects;
 };
-EOSIO_ABI(License, (setuserinfo)(makeproject)(setproject)(buylicense)(getlicense))
+EOSIO_ABI(License, (setuserinfo)(makeproject)(buylicense)(testlicense))
