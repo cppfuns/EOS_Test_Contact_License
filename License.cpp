@@ -43,6 +43,8 @@ void License::buylicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
 
+    auto customer_index = projecttable.template get_index<N(getowner_name)>();
+    
     eosio_assert(bFind, "owner with project not exists" );
 }
 
