@@ -44,7 +44,24 @@ void License::buylicense(account_name owner, const std::string& project_name){
     bool bFind = false;
 
     auto customer_index = projecttable.template get_index<N(byowner_name)>();
-    
+    account_name customer_acct = eosio::chain::string_to_name(owner);
+    auto cust_itr = customer_index.find(customer_acct);
+    while (cust_itr != projecttable.end() && cust_itr->owner_name == customer_acct) {
+        if(cust_itr->project_name == project_name){
+            if(cust_itr->status == 0){
+                //TODO 判断当前账户余额，购买转账等操作
+                projecttable.modify(cust_itr, 0, [&](auto& project) {
+                    project.status = 1;
+                });
+            }
+            else{
+                eosio_assert(false, "The current project is authorized" );
+            }
+            bFind = true;
+            break;
+        }
+        cust_itr++;
+    } 
     eosio_assert(bFind, "owner with project not exists" );
 }
 
