@@ -31,7 +31,7 @@ void License::makeproject(account_name owner, const std::string& project_name){
         project.owner_name = owner;
         project.project_name = project_name;
         auto account_itr = accounts.find(owner);
-        if(account_itr == accounts.end()){
+        if(account_itr != accounts.end()){
             project.company_name = account_itr->company_name;
             project.contact_info = account_itr->contact_info;
             project.status = 0; //初始化未授权，须另购买
