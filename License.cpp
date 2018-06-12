@@ -28,7 +28,7 @@ void License::makeproject(account_name owner, const std::string& project_name){
     if (cust_itr != customer_index.end() && cust_itr->owner_name == customer_acct) {
         customer_index.modify(cust_itr, 0, [&](auto& project) {
             project.project_name = project_name;
-            project.status = cust_itr->status; //初始化未授权，须另购买
+            project.status = 0; //初始化未授权，须另购买
             auto account_itr = accounts.find(owner);
             if(account_itr != accounts.end()){
                 project.project_name = project_name;
