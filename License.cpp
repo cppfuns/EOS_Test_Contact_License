@@ -27,9 +27,9 @@ void License::makeproject(account_name owner, const std::string& project_name){
     auto cust_itr = customer_index.find(customer_acct);
     if (cust_itr != customer_index.end() && cust_itr->owner_name == customer_acct) {
         customer_index.modify(cust_itr, 0, [&](auto& project) {
-            project.company_name = account_itr->company_name;
-            project.contact_info = account_itr->contact_info;
-            project.status = account_itr->status; //初始化未授权，须另购买
+            project.company_name = cust_itr->company_name;
+            project.contact_info = cust_itr->contact_info;
+            project.status = cust_itr->status; //初始化未授权，须另购买
         });
     } 
     else{
