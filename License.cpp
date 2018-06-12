@@ -47,11 +47,11 @@ void License::buylicense(account_name owner, const std::string& project_name){
     auto customer_index = projecttables.template get_index<N(byowner_name)>();
     account_name customer_acct = owner; //如果是string 可以用 eosio::string_to_name 转换
     auto cust_itr = customer_index.find(customer_acct);
-    while (cust_itr != projecttables.end() && cust_itr->owner_name == customer_acct) {
+    while (cust_itr != customer_index.end() && cust_itr->owner_name == customer_acct) {
         if(cust_itr->project_name == project_name){
             if(cust_itr->status == 0){
                 //TODO 判断当前账户余额，购买转账等操作
-                projecttables.modify(cust_itr, 0, [&](auto& project) {
+                customer_index.modify(cust_itr, 0, [&](auto& project) {
                     project.status = 1;
                 });
             }
