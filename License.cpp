@@ -44,7 +44,7 @@ void License::buylicense(account_name owner, const std::string& project_name){
     bool bFind = false;
 
     auto customer_index = projecttable.template get_index<N(byowner_name)>();
-    account_name customer_acct = eosio::chain::string_to_name(owner);
+    account_name customer_acct = eosio::string_to_name(owner);
     auto cust_itr = customer_index.find(customer_acct);
     while (cust_itr != projecttable.end() && cust_itr->owner_name == customer_acct) {
         if(cust_itr->project_name == project_name){
