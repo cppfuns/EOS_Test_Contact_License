@@ -43,7 +43,7 @@ void License::buylicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
     for( const auto& project : projects ) {
-        if(project.project_name == project_name && project.owner == owner){
+        if(project.project_name == project_name && project.user_id == owner){
             if(project.status == 0){
                 //TODO 判断当前账户余额，购买转账等操作
                 project.status = 1;
@@ -62,7 +62,7 @@ void License::testlicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
     for( const auto& project : projects ) {
-        if(project.project_name == project_name && project.owner == owner){
+        if(project.project_name == project_name && project.user_id == owner){
             eosio_assert((project.status == 1), "The current project is not authorized" );
             bFind = true;
             break;
