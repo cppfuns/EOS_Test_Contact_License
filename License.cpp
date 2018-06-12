@@ -42,7 +42,7 @@ void License::makeproject(account_name owner, const std::string& project_name){
 void License::buylicense(account_name owner, const std::string& project_name){
     require_auth(owner);
     bool bFind = false;
-
+    //二级索引查找
     auto customer_index = projecttable.template get_index<N(byowner_name)>();
     account_name customer_acct = owner; //如果是string 可以用 eosio::string_to_name 转换
     auto cust_itr = customer_index.find(customer_acct);
