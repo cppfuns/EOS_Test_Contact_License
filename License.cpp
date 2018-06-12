@@ -22,7 +22,7 @@ void License::setuserinfo(account_name owner, const std::string& company_name, c
 void License::makeproject(account_name owner, const std::string& project_name){
     require_auth(owner);
     for( const auto& project : projects ) {
-        if(project.project_name == project_name && project.owner == owner){
+        if(project.project_name == project_name && project.user_id == owner){
             eosio_assert(false, "owner with project already exists" );
             return;
         }
